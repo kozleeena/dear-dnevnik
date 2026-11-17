@@ -1,0 +1,1511 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Baloo+Bhai&family=Baloo+Bhai+2:wght@400;500;600;700;800&display=swap');
+
+
+/* ==========================================
+   1. COLORS & VARIABLES
+========================================== */
+
+:root {
+    --yellow: #F1E698;
+    --orange: #ED983C;
+    --green: #94DC63;
+    --purple: #BD5CED;
+    --turquoise: #56E3DC;
+
+    --navy: #1E3775;
+    --paper: #F4F0E9;
+
+    --correct: #C8E8B3;
+    --incorrect: #E9CAA8;
+    --logout: #D9D9D9;
+
+    --font-heading: "Baloo Bhai", "Baloo Bhai 2", sans-serif;
+    --font-body: "Baloo Bhai 2", sans-serif;
+
+    --space: 24px;
+}
+
+
+/* ==========================================
+   2. GLOBAL STYLES
+========================================== */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    background: var(--navy);
+    color: var(--navy);
+    font-family: var(--font-body);
+    font-size: 20px;
+    line-height: 1.35;
+}
+
+button,
+input,
+select,
+textarea {
+    font: inherit;
+    color: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+button:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible {
+    outline: 3px solid var(--purple);
+    outline-offset: 3px;
+}
+
+h1,
+h2,
+h3,
+h4 {
+    font-family: var(--font-heading);
+    font-weight: 400;
+    line-height: 1.12;
+    margin-top: 0;
+}
+
+h1 {
+    font-size: clamp(36px, 4vw, 52px);
+}
+
+h2 {
+    font-size: clamp(29px, 3vw, 42px);
+}
+
+h3 {
+    font-size: 27px;
+}
+
+p {
+    margin-top: 0;
+}
+
+a {
+    color: var(--navy);
+}
+
+[hidden],
+.hidden {
+    display: none !important;
+}
+
+
+/* ==========================================
+   3. NOTEBOOK LAYOUT
+========================================== */
+
+.notebook-body {
+    min-height: 100vh;
+    padding: 24px 55px 40px 20px;
+    background: var(--navy);
+}
+
+.notebook {
+    display: flex;
+    width: 100%;
+    max-width: 1360px;
+    min-height: 850px;
+    margin: 0 auto;
+    padding: 0;
+    position: relative;
+}
+
+.notebook-paper {
+    position: relative;
+    flex: 1;
+    min-width: 0;
+    min-height: 850px;
+    background: var(--paper);
+
+    padding: 42px 80px 65px 65px;
+}
+
+.notebook-page {
+    width: 100%;
+    animation: page-appear 0.2s ease;
+}
+
+@keyframes page-appear {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+
+/* ==========================================
+   4. COLORED NOTEBOOK TABS
+========================================== */
+
+.notebook-tabs {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+
+    width: 260px;
+    flex-shrink: 0;
+
+    padding-top: 60px;
+    position: relative;
+    z-index: 2;
+}
+
+.notebook-tab {
+    width: 100%;
+    min-height: 65px;
+
+    border: none;
+    border-radius: 0;
+
+    padding: 8px 18px;
+    text-align: left;
+
+    font-family: var(--font-heading);
+    font-size: 29px;
+    line-height: 1.1;
+    color: var(--navy);
+
+    transition: transform 0.2s ease;
+}
+
+.notebook-tab:nth-child(1) {
+    background: var(--yellow);
+}
+
+.notebook-tab:nth-child(2) {
+    background: var(--orange);
+}
+
+.notebook-tab:nth-child(3) {
+    background: var(--green);
+}
+
+.notebook-tab:nth-child(4) {
+    background: var(--purple);
+}
+
+.notebook-tab:nth-child(5) {
+    background: var(--turquoise);
+}
+
+.notebook-tab:hover:not(:disabled) {
+    transform: translateX(8px);
+}
+
+.notebook-tab.active {
+    transform: translateX(20px);
+}
+
+.notebook-tab:disabled {
+    opacity: 0.7;
+}
+
+
+/* ==========================================
+   5. NOTEBOOK RINGS
+========================================== */
+
+.notebook-rings {
+    position: absolute;
+    top: 110px;
+    right: -43px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 92px;
+
+    z-index: 4;
+    pointer-events: none;
+}
+
+.notebook-rings span {
+    position: relative;
+    display: block;
+
+    width: 76px;
+    height: 24px;
+
+    border-radius: 20px;
+
+    background: linear-gradient(
+        to bottom,
+        #A8A8A8 0%,
+        #F9F9F9 24%,
+        #D1D1D1 52%,
+        #989898 82%,
+        #E8E8E8 100%
+    );
+
+    border: 2px solid #BDBDBD;
+
+    box-shadow:
+        0 2px 5px rgba(0, 0, 0, 0.12),
+        inset 0 2px 3px rgba(255, 255, 255, 0.8);
+}
+
+.notebook-rings span::before {
+    content: "";
+
+    position: absolute;
+    left: -10px;
+    top: -7px;
+
+    width: 34px;
+    height: 34px;
+
+    border: 3px solid #C9C9C9;
+    border-radius: 50%;
+
+    background: radial-gradient(
+        circle,
+        var(--paper) 35%,
+        #E2E2E2 58%,
+        #A9A9A9 83%
+    );
+
+    z-index: -1;
+}
+
+
+/* ==========================================
+   6. TOP BAR & LOG OUT
+========================================== */
+
+.notebook-topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    min-height: 52px;
+    margin-bottom: 45px;
+}
+
+.notebook-topbar span {
+    font-size: 17px;
+    font-weight: 600;
+}
+
+#logout-button,
+#teacher-logout {
+    background: var(--logout);
+
+    border: none;
+    border-radius: 10px;
+
+    padding: 7px 18px;
+
+    font-family: var(--font-heading);
+    font-size: 22px;
+    color: var(--navy);
+}
+
+#logout-button:hover,
+#teacher-logout:hover {
+    filter: brightness(0.94);
+}
+
+
+/* ==========================================
+   7. STUDENT HOME PAGE
+========================================== */
+
+#page-home h1 {
+    font-family: var(--font-heading);
+    font-size: clamp(35px, 4vw, 53px);
+    line-height: 1.15;
+    margin-bottom: 15px;
+}
+
+.daily-quote {
+    font-family: "Times New Roman", serif;
+    font-size: clamp(24px, 2.8vw, 35px);
+    font-style: italic;
+    line-height: 1.3;
+
+    margin-bottom: 90px;
+    text-decoration: none;
+}
+
+.student-overview {
+    margin-bottom: 30px;
+}
+
+.student-overview p {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: baseline;
+
+    margin-bottom: 10px;
+}
+
+.student-overview strong {
+    font-family: var(--font-heading);
+    font-weight: 400;
+    font-size: clamp(25px, 3vw, 37px);
+}
+
+#next-class,
+#lessons-left {
+    font-family: var(--font-body);
+    font-size: 24px;
+    font-weight: 500;
+}
+
+
+/* ==========================================
+   8. CALENDAR
+========================================== */
+
+.calendar-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 15px;
+
+    margin-bottom: 14px;
+}
+
+.calendar-heading h2 {
+    font-size: 40px;
+    margin: 0;
+}
+
+.calendar-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+#calendar-month {
+    font-size: 25px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.calendar-actions button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 48px;
+    height: 48px;
+
+    background: var(--yellow);
+    border: none;
+    border-radius: 50%;
+
+    font-size: 30px;
+    line-height: 1;
+    color: var(--orange);
+}
+
+.calendar-actions button:hover {
+    background: var(--orange);
+    color: var(--navy);
+}
+
+.calendar {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 7px;
+
+    width: 100%;
+    min-height: 350px;
+
+    padding: 22px;
+    background: var(--yellow);
+}
+
+.calendar-weekday,
+.calendar-day,
+.calendar-empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 0;
+    min-height: 42px;
+    text-align: center;
+}
+
+.calendar-weekday {
+    font-family: var(--font-heading);
+    font-size: 23px;
+}
+
+.calendar-day {
+    width: 42px;
+    height: 42px;
+    min-height: 42px;
+    margin: 0 auto;
+
+    border-radius: 50%;
+
+    font-size: 21px;
+    font-weight: 600;
+    color: var(--navy);
+}
+
+.calendar-day.today {
+    background: var(--orange);
+}
+
+.calendar-day.class-day {
+    background: transparent;
+    outline: 3px solid var(--purple);
+    outline-offset: -3px;
+    cursor: pointer;
+}
+
+.calendar-day.today.class-day {
+    background: var(--orange);
+    outline-color: var(--purple);
+}
+
+.calendar-day.class-day:hover {
+    filter: brightness(0.95);
+}
+
+
+/* ==========================================
+   9. SHARED BUTTONS & INPUTS
+========================================== */
+
+.notebook-paper input,
+.notebook-paper select,
+.notebook-paper textarea {
+    max-width: 100%;
+
+    border: none;
+    border-radius: 12px;
+
+    background: var(--paper);
+    color: var(--navy);
+
+    padding: 12px 16px;
+    font-size: 20px;
+}
+
+.notebook-paper input:focus,
+.notebook-paper select:focus,
+.notebook-paper textarea:focus {
+    outline: 3px solid var(--purple);
+}
+
+.notebook-link {
+    display: inline-block;
+
+    padding: 12px 22px;
+    margin-top: 14px;
+
+    border-radius: 12px;
+    background: var(--green);
+
+    font-family: var(--font-heading);
+    font-size: 22px;
+    text-decoration: none;
+}
+
+.notebook-link:hover {
+    filter: brightness(0.94);
+}
+
+
+/* ==========================================
+   10. VOCABULARY
+========================================== */
+
+.vocabulary-header,
+.library-header,
+.grammar-header {
+    margin-bottom: 35px;
+}
+
+.vocabulary-header h2,
+.library-header h2,
+.grammar-header h2 {
+    font-size: 43px;
+    margin-bottom: 12px;
+}
+
+.vocabulary-header p,
+.library-header p,
+.grammar-header p {
+    font-size: 20px;
+}
+
+.vocabulary-actions {
+    display: flex;
+    gap: 15px;
+    margin-top: 25px;
+}
+
+.vocabulary-actions input {
+    flex: 1;
+    min-width: 0;
+    background: white;
+}
+
+.vocabulary-actions button,
+.add-word-form button,
+.practice-buttons button,
+.flashcard-controls button,
+#next-question {
+    background: var(--orange);
+    border: none;
+    border-radius: 12px;
+
+    padding: 10px 20px;
+
+    font-family: var(--font-heading);
+    font-size: 21px;
+}
+
+.vocabulary-practice {
+    margin: 30px 0;
+}
+
+.vocabulary-practice h2 {
+    font-size: 30px;
+}
+
+.practice-buttons,
+.flashcard-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin: 15px 0 25px;
+}
+
+.word-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.word-card {
+    position: relative;
+    background: var(--yellow);
+
+    padding: 25px;
+    padding-right: 48px;
+
+    border-radius: 12px;
+    min-width: 0;
+}
+
+.word-card h3 {
+    font-size: 25px;
+    margin-bottom: 8px;
+    overflow-wrap: anywhere;
+}
+
+.word-card p {
+    margin-bottom: 8px;
+    overflow-wrap: anywhere;
+}
+
+.word-example {
+    font-style: italic;
+    opacity: 0.85;
+}
+
+.delete-word-btn {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 32px;
+    height: 32px;
+
+    border: none;
+    border-radius: 8px;
+    background: transparent;
+
+    color: #888888;
+    cursor: pointer;
+}
+
+.delete-word-btn:hover {
+    background: rgba(0, 0, 0, 0.07);
+    color: var(--navy);
+}
+
+.delete-word-btn svg {
+    display: block;
+}
+
+.add-word-form,
+#test-section,
+#flashcards-section {
+    margin: 25px 0;
+    padding: 30px;
+
+    background: var(--yellow);
+    border-radius: 0;
+}
+
+.add-word-form form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.add-word-form input {
+    background: white;
+}
+
+.flashcard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 260px;
+    padding: 30px;
+
+    background: var(--paper);
+    border-radius: 15px;
+
+    text-align: center;
+    cursor: pointer;
+}
+
+#flashcard-text {
+    font-family: var(--font-heading);
+    font-size: 32px;
+}
+
+#card-counter,
+#test-progress {
+    font-size: 19px;
+}
+
+#test-options {
+    display: grid;
+    gap: 12px;
+    margin: 20px 0;
+}
+
+.test-option {
+    padding: 15px 20px;
+    border: none;
+    border-radius: 12px;
+
+    background: var(--paper);
+    text-align: left;
+}
+
+.test-option.correct {
+    background: var(--correct);
+}
+
+.test-option.incorrect,
+.test-option.wrong {
+    background: var(--incorrect);
+}
+
+
+/* ==========================================
+   11. LIBRARY
+========================================== */
+
+.library-filters {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.library-filters select {
+    background: white;
+    min-width: 145px;
+}
+
+.library-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.library-card {
+    padding: 25px;
+    border-radius: 12px;
+    background: var(--yellow);
+
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.library-card:hover {
+    transform: translateY(-4px);
+}
+
+.library-card h3 {
+    font-size: 28px;
+    margin: 15px 0 10px;
+}
+
+.library-card p {
+    margin-bottom: 0;
+}
+
+.level-badge {
+    display: inline-block;
+
+    padding: 5px 14px;
+
+    background: var(--purple);
+    border-radius: 20px;
+
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.reading-section {
+    padding: 30px;
+    background: var(--yellow);
+}
+
+#back-to-library {
+    background: transparent;
+    border: none;
+
+    padding: 0;
+    margin-bottom: 25px;
+
+    font-size: 20px;
+    text-align: left;
+}
+
+#reading-title {
+    margin-bottom: 10px;
+}
+
+#reading-level {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+#reading-text {
+    margin: 25px 0 40px;
+    font-size: 22px;
+    line-height: 1.7;
+    white-space: pre-line;
+}
+
+
+/* ==========================================
+   12. VOICE RECORDER
+========================================== */
+
+.recording-area {
+    padding: 25px;
+    background: var(--paper);
+    border-radius: 12px;
+}
+
+.recording-area h3 {
+    margin-bottom: 12px;
+}
+
+.recording-controls {
+    display: flex;
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.recording-controls button {
+    padding: 10px 25px;
+
+    background: var(--turquoise);
+    border: none;
+    border-radius: 12px;
+
+    font-family: var(--font-heading);
+    font-size: 22px;
+}
+
+#recording-status {
+    font-size: 18px;
+}
+
+#audio-player {
+    display: block;
+    width: 100%;
+    margin-top: 20px;
+}
+
+#download-recording {
+    display: inline-block;
+    margin-top: 15px;
+    font-weight: 700;
+}
+
+
+/* ==========================================
+   13. GRAMMAR GYM
+========================================== */
+
+.grammar-header {
+    margin-bottom: 50px;
+}
+
+.grammar-panel {
+    width: 100%;
+    padding: 35px 45px 45px;
+    margin-bottom: 30px;
+
+    background: var(--yellow);
+    border-radius: 0;
+}
+
+.grammar-panel h3 {
+    font-size: 32px;
+    margin-bottom: 20px;
+}
+
+.grammar-filters {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 35px;
+
+    margin-bottom: 25px;
+}
+
+.grammar-filters > div {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 0;
+}
+
+.grammar-filters label {
+    font-size: 25px;
+}
+
+.grammar-filters select {
+    width: 100%;
+    background: var(--paper);
+}
+
+#available-questions {
+    margin: 22px 0;
+    font-size: 18px;
+}
+
+#start-grammar,
+#next-grammar-question,
+#restart-grammar {
+    background: var(--turquoise);
+
+    border: none;
+    border-radius: 12px;
+
+    padding: 10px 28px;
+
+    font-family: var(--font-heading);
+    font-size: 25px;
+}
+
+.workout-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+
+    font-size: 24px;
+    margin-bottom: 18px;
+}
+
+.progress-track {
+    height: 15px;
+    margin-bottom: 25px;
+
+    background: var(--paper);
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+#progress-fill {
+    width: 0;
+    height: 100%;
+
+    background: var(--turquoise);
+    transition: width 0.3s ease;
+}
+
+#question-topic {
+    font-size: 17px;
+    margin-bottom: 12px;
+}
+
+#grammar-question {
+    font-family: var(--font-body);
+    font-size: 29px;
+    font-weight: 500;
+    line-height: 1.3;
+
+    margin-bottom: 25px;
+}
+
+#grammar-options {
+    display: grid;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.grammar-option {
+    width: 100%;
+    padding: 16px 22px;
+
+    border: 2px solid transparent;
+    border-radius: 12px;
+
+    background: var(--paper);
+    color: var(--navy);
+
+    font-size: 22px;
+    text-align: left;
+}
+
+.grammar-option:hover:not(:disabled) {
+    border-color: var(--navy);
+}
+
+.grammar-option.correct {
+    background: var(--correct);
+}
+
+.grammar-option.incorrect,
+.grammar-option.wrong {
+    background: var(--incorrect);
+}
+
+#grammar-feedback {
+    padding: 20px;
+    margin: 20px 0;
+
+    background: var(--paper);
+    border-radius: 12px;
+
+    font-size: 20px;
+    line-height: 1.5;
+}
+
+#final-score {
+    font-family: var(--font-heading);
+    font-size: 42px;
+    margin-bottom: 15px;
+}
+
+#result-message {
+    font-size: 22px;
+}
+
+
+/* ==========================================
+   14. TEACHER DASHBOARD
+========================================== */
+
+.teacher-header {
+    margin-bottom: 30px;
+}
+
+.teacher-header h1 {
+    font-size: 46px;
+    margin-bottom: 10px;
+}
+
+.students-list {
+    display: grid;
+    gap: 20px;
+}
+
+.student-card {
+    padding: 25px 30px;
+
+    background: var(--yellow);
+    border-radius: 12px;
+}
+
+.student-card h3 {
+    margin-bottom: 15px;
+}
+
+.student-card p {
+    margin-bottom: 10px;
+}
+
+.balance-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
+    margin: 20px 0;
+}
+
+.balance-number {
+    min-width: 40px;
+
+    font-family: var(--font-heading);
+    font-size: 30px;
+    text-align: center;
+}
+
+.balance-controls button {
+    width: 42px;
+    height: 42px;
+
+    border: none;
+    border-radius: 10px;
+
+    background: var(--orange);
+
+    font-size: 27px;
+    line-height: 1;
+}
+
+.schedule-controls {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+
+    margin-top: 20px;
+    padding-top: 20px;
+
+    border-top: 2px solid rgba(30, 55, 117, 0.15);
+}
+
+.schedule-controls h4 {
+    flex-basis: 100%;
+    font-size: 25px;
+    margin: 0;
+}
+
+.schedule-controls input {
+    background: var(--paper);
+}
+
+.schedule-controls button {
+    padding: 10px 18px;
+
+    border: none;
+    border-radius: 10px;
+
+    background: var(--green);
+
+    font-size: 19px;
+    font-weight: 700;
+}
+
+#teacher-error {
+    color: #A33434;
+}
+
+
+/* ==========================================
+   15. RESPONSIVE DESIGN
+========================================== */
+
+@media (max-width: 1050px) {
+
+    .notebook-tabs {
+        width: 205px;
+    }
+
+    .notebook-tab {
+        font-size: 23px;
+    }
+
+    .notebook-paper {
+        padding: 35px 55px 50px 35px;
+    }
+
+    .notebook-rings {
+        right: -40px;
+    }
+
+    .word-list,
+    .library-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+@media (max-width: 720px) {
+
+    .notebook-body {
+        padding: 0;
+    }
+
+    .notebook {
+        flex-direction: column;
+        min-height: 100vh;
+    }
+
+    .notebook-tabs {
+        flex-direction: row;
+        width: 100%;
+
+        gap: 6px;
+        padding: 14px 10px 0;
+
+        overflow-x: auto;
+        scrollbar-width: thin;
+    }
+
+    .notebook-tab {
+        flex: 0 0 auto;
+        width: auto;
+        min-height: 48px;
+
+        padding: 10px 14px;
+
+        font-size: 18px;
+        white-space: nowrap;
+    }
+
+    .notebook-tab.active,
+    .notebook-tab:hover:not(:disabled) {
+        transform: translateY(4px);
+    }
+
+    .notebook-paper {
+        min-height: calc(100vh - 70px);
+        padding: 35px 55px 50px 35px;
+    }
+
+    .notebook-rings {
+        display: none;
+    }
+
+    .notebook-topbar {
+        margin-bottom: 25px;
+    }
+
+    .notebook-topbar span {
+        font-size: 14px;
+    }
+
+    #page-home h1 {
+        font-size: 36px;
+    }
+
+    .daily-quote {
+        font-size: 25px;
+        margin-bottom: 55px;
+    }
+
+    .student-overview strong {
+        font-size: 27px;
+    }
+
+    #next-class,
+    #lessons-left {
+        font-size: 20px;
+    }
+
+    .calendar-heading h2 {
+        font-size: 30px;
+    }
+
+    #calendar-month {
+        font-size: 18px;
+    }
+
+    .calendar-actions {
+        gap: 9px;
+    }
+
+    .calendar-actions button {
+        width: 37px;
+        height: 37px;
+    }
+
+    .calendar {
+        gap: 2px;
+        padding: 12px 5px;
+        min-height: 280px;
+    }
+
+    .calendar-weekday {
+        font-size: 15px;
+    }
+
+    .calendar-day {
+        width: 34px;
+        height: 34px;
+        min-height: 34px;
+        font-size: 17px;
+    }
+
+    .calendar-empty,
+    .calendar-weekday {
+        min-height: 34px;
+    }
+
+    .grammar-panel {
+        padding: 25px 20px;
+    }
+
+    .grammar-filters {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .vocabulary-actions {
+        flex-direction: column;
+    }
+
+    .reading-section {
+        padding: 20px 15px;
+    }
+
+    .recording-controls {
+        flex-wrap: wrap;
+    }
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+/* ==========================================
+   TEACHER WORKSPACE
+========================================== */
+
+.teacher-workspace {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    margin-top: 25px;
+    padding-top: 20px;
+
+    border-top: 2px solid rgba(30, 55, 117, 0.15);
+}
+
+.teacher-workspace h4 {
+    margin: 0;
+    font-size: 27px;
+}
+
+.teacher-workspace label {
+    font-size: 19px;
+    font-weight: 600;
+}
+
+.teacher-workspace input {
+    width: 100%;
+    padding: 12px 16px;
+
+    border: none;
+    border-radius: 10px;
+
+    background: var(--paper);
+    color: var(--navy);
+}
+
+.teacher-workspace button {
+    align-self: flex-start;
+
+    padding: 9px 18px;
+
+    border: none;
+    border-radius: 10px;
+
+    background: var(--green);
+    color: var(--navy);
+
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.teacher-workspace button:disabled {
+    opacity: 0.5;
+}
+
+.teacher-resource-list {
+    display: grid;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.teacher-resource-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+
+    padding: 12px;
+    border-radius: 10px;
+
+    background: var(--paper);
+}
+
+.teacher-resource-row a {
+    overflow-wrap: anywhere;
+    flex: 1;
+}
+
+.teacher-resource-row button {
+    background: var(--incorrect);
+}
+
+.workspace-status {
+    font-size: 16px;
+    margin: 0;
+}
+/* ==========================================
+   STUDENT WORKSPACE
+========================================== */
+
+#page-workspace > h2 {
+    font-size: 43px;
+    margin-bottom: 12px;
+}
+
+#page-workspace > p {
+    margin-bottom: 35px;
+}
+
+.workspace-meeting {
+    padding: 30px;
+    background: var(--yellow);
+    margin-bottom: 35px;
+}
+
+.workspace-meeting h3,
+.workspace-resources h3 {
+    font-size: 32px;
+    margin-bottom: 15px;
+}
+
+.workspace-meeting p {
+    margin-bottom: 25px;
+}
+
+.join-class-button {
+    display: inline-block;
+
+    padding: 12px 30px;
+
+    background: var(--turquoise);
+    color: var(--navy);
+
+    border-radius: 12px;
+
+    font-family: var(--font-heading);
+    font-size: 26px;
+
+    text-decoration: none;
+}
+
+.join-class-button:hover {
+    filter: brightness(0.95);
+}
+
+.workspace-resources {
+    margin-top: 30px;
+}
+
+#student-resources {
+    display: grid;
+    gap: 15px;
+}
+
+.workspace-resource-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+
+    padding: 20px 25px;
+
+    background: var(--yellow);
+    border-radius: 12px;
+
+    color: var(--navy);
+    text-decoration: none;
+
+    font-size: 22px;
+
+    transition: transform 0.2s ease;
+}
+
+.workspace-resource-card:hover {
+    transform: translateY(-3px);
+}
+
+.workspace-resource-card span:first-child {
+    overflow-wrap: anywhere;
+}
+
+.workspace-resource-card span:last-child {
+    font-size: 28px;
+    flex-shrink: 0;
+}
+
+#workspace-error {
+    margin-top: 20px;
+    color: #A33434;
+}
+
+
+/* Mobile */
+
+@media (max-width: 720px) {
+
+    .workspace-meeting {
+        padding: 22px;
+    }
+
+    .workspace-resource-card {
+        padding: 16px;
+        font-size: 19px;
+    }
+
+    .join-class-button {
+        width: 100%;
+        text-align: center;
+        font-size: 23px;
+    }
+}

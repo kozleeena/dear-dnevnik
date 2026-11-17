@@ -1,0 +1,260 @@
+
+/* ==========================================
+   1. FONTS
+========================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Baloo+Bhai&family=Baloo+Bhai+2:wght@400;500;600;700;800&display=swap');
+
+
+/* ==========================================
+   2. COLORS
+========================================== */
+
+:root {
+    --navy: #1E3775;
+    --dark-navy: #101A34;
+    --paper: #F4F0E9;
+
+    --font-heading: "Baloo Bhai", sans-serif;
+    --font-body: "Baloo Bhai 2", sans-serif;
+}
+
+
+/* ==========================================
+   3. GLOBAL STYLES
+========================================== */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    min-height: 100%;
+}
+
+body {
+    margin: 0;
+
+    min-height: 100vh;
+    min-height: 100dvh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 24px;
+
+    background-color: var(--dark-navy);
+    color: var(--navy);
+
+    font-family: var(--font-body);
+}
+
+
+/* ==========================================
+   4. LOGIN CARD
+========================================== */
+
+.login-card {
+    width: 100%;
+    max-width: 600px;
+
+    padding: 45px 55px 40px;
+
+    background-color: var(--paper);
+
+    border-radius: 20px;
+}
+
+.login-card h1 {
+    margin: 0 0 8px;
+
+    font-family: var(--font-heading);
+    font-size: 56px;
+    font-weight: 400;
+    line-height: 1.15;
+
+    color: var(--navy);
+    text-align: center;
+}
+
+
+/* ==========================================
+   5. LOGIN FORM
+========================================== */
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.auth-form label {
+    margin-bottom: 4px;
+
+    font-family: var(--font-heading);
+    font-size: 30px;
+    line-height: 1.2;
+
+    color: var(--navy);
+}
+
+.auth-form input {
+    width: 100%;
+    height: 68px;
+
+    margin-bottom: 12px;
+    padding: 10px 16px;
+
+    background: transparent;
+
+    border: 3px solid var(--navy);
+    border-radius: 0;
+
+    font-family: var(--font-body);
+    font-size: 22px;
+
+    color: var(--navy);
+}
+
+.auth-form input:focus {
+    outline: 2px solid var(--navy);
+    outline-offset: 3px;
+}
+
+
+/* ==========================================
+   6. LOGIN BUTTON
+========================================== */
+
+.auth-form button {
+    width: 100%;
+    min-height: 62px;
+
+    margin-top: 30px;
+    padding: 8px 18px;
+
+    background: transparent;
+
+    border: 3px solid var(--navy);
+    border-radius: 0;
+
+    font-family: var(--font-heading);
+    font-size: 32px;
+    line-height: 1.2;
+
+    color: var(--navy);
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.auth-form button:hover {
+    background-color: #E8E2D8;
+}
+
+.auth-form button:active {
+    transform: scale(0.99);
+}
+
+.auth-form button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+
+/* ==========================================
+   7. FORM MESSAGES
+========================================== */
+
+#form-message {
+    margin: 15px 0 0;
+
+    font-family: var(--font-body);
+    font-size: 16px;
+
+    color: var(--navy);
+    text-align: center;
+}
+
+#form-message:empty {
+    display: none;
+}
+
+
+/* ==========================================
+   8. MOBILE VERSION
+========================================== */
+
+@media (max-width: 600px) {
+
+    body {
+        padding: 18px;
+    }
+
+    .login-card {
+        padding: 32px 25px 36px;
+        border-radius: 16px;
+    }
+
+    .login-card h1 {
+        font-size: 44px;
+        margin-bottom: 22px;
+    }
+
+    .auth-form label {
+        font-size: 26px;
+    }
+
+    .auth-form input {
+        height: 58px;
+        font-size: 18px;
+        border-width: 2px;
+    }
+
+    .auth-form button {
+        min-height: 56px;
+        margin-top: 25px;
+
+        border-width: 2px;
+        font-size: 28px;
+    }
+
+    #form-message {
+        font-size: 14px;
+    }
+}
+
+
+/* ==========================================
+   9. SMALL PHONES
+========================================== */
+
+@media (max-width: 360px) {
+
+    .login-card {
+        padding: 25px 18px 30px;
+    }
+
+    .login-card h1 {
+        font-size: 39px;
+    }
+
+    .auth-form label {
+        font-size: 23px;
+    }
+}
+
+
+/* ==========================================
+   10. REDUCED MOTION
+========================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .auth-form button {
+        transition: none;
+    }
+}

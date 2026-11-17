@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Teacher's Notebook | Dear Dnevnik</title>
+
+    <link rel="stylesheet" href="dashboard.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js" defer></script>
+    <script src="teacher.js" defer></script>
+</head>
+
+<body class="notebook-body">
+
+    <div class="notebook" id="teacher-notebook" hidden>
+
+        <nav class="notebook-tabs">
+            <button class="notebook-tab active" type="button">
+                Students
+            </button>
+
+            <button class="notebook-tab" type="button" disabled>
+                Schedule
+            </button>
+
+            <button class="notebook-tab" type="button" disabled>
+                Library
+            </button>
+        </nav>
+
+        <main class="notebook-paper">
+
+            <div class="notebook-topbar">
+                <span>Dear Dnevnik — Teacher</span>
+                <button id="teacher-logout" type="button">
+                    Log Out
+                </button>
+            </div>
+
+            <section class="teacher-header">
+                <h1>My Students</h1>
+                <p>Manage your students and their lessons.</p>
+            </section>
+
+            <section id="students-list" class="students-list">
+                <p>Loading students...</p>
+            </section>
+
+            <p id="teacher-error" role="alert" hidden></p>
+
+        </main>
+    </div>
+
+</body>
+</html>

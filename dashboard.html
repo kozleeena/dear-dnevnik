@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Notebook | Dear Dnevnik</title>
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+Bhai+2:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js" defer></script>
+    <script src="dashboard.js" defer></script>
+    <script src="vocabulary.js" defer></script>
+    <script src="library.js" defer></script>
+    <script src="grammar-data.js" defer></script>
+    <script src="grammar.js" defer></script>
+</head>
+<body class="notebook-body">
+    <div class="notebook" hidden>
+        <nav class="notebook-tabs" aria-label="Notebook sections">
+            <button type="button" class="notebook-tab active" data-page="home" aria-controls="page-home" aria-current="page">1st page</button>
+            <button type="button" class="notebook-tab" data-page="vocabulary" aria-controls="page-vocabulary">Vocabulary</button>
+            <button type="button" class="notebook-tab" data-page="workspace" aria-controls="page-workspace">Workspace</button>
+            <button type="button" class="notebook-tab" data-page="library" aria-controls="page-library">Library</button>
+            <button type="button" class="notebook-tab" data-page="gym" aria-controls="page-gym">Gym</button>
+        </nav>
+        <main class="notebook-paper">
+            <div class="notebook-topbar"><span>Dear Dnevnik</span><button id="logout-button" type="button">Log Out</button></div>
+            <section class="notebook-page active" id="page-home">
+                <h1>Welcome back, <span id="student-name">Student</span>!</h1>
+                <p class="daily-quote" id="daily-quote">No risk, no glory</p>
+                <div class="student-overview">
+                    <p><strong>Next class:</strong> <span id="next-class">Not scheduled yet</span></p>
+                    <p><strong>Lessons left:</strong> <span id="lessons-left">Not available yet</span></p>
+                </div>
+                <div class="calendar-heading"><h2>Calendar</h2><div class="calendar-actions"><button type="button" id="calendar-prev" aria-label="Previous month">‹</button><span id="calendar-month"></span><button type="button" id="calendar-next" aria-label="Next month">›</button></div></div>
+                <div class="calendar" id="calendar" aria-label="Monthly calendar"></div>
+            </section>
+            <section class="notebook-page" id="page-vocabulary" hidden>
+                <section class="vocabulary-header">
+                    <h2>My Vocabulary</h2>
+                    <p>Learn words ffs</p>
+                    <div class="vocabulary-actions">
+                        <input
+                        type="search"
+                        id="word-search"
+                        placeholder="hmmm how to say...">
+                        <button id="add-word-btn">+ Add Word</button>
+                    </div>
+                </section>
+                <section class="vocabulary-practice">
+                    <h2>Practice your vocabulary</h2>
+                    <div class="practice-buttons">
+                        <button id="flashcards-btn">Flashcards</button>
+                        <button id="test-btn">Vocabulary Test</button>
+                    </div>
+                </section>
+                <section id="flashcards-section" class="hidden">
+                    <h2>Flashcards</h2>
+                    <p id="card-counter"></p>
+                    <div class="flashcard" id="flashcard">
+                        <p id="flashcard-text"></p>
+                        <span>Click to flip</span>
+                    </div>
+                    <div class="flashcard-controls">
+                        <button id="previous-card">Previous</button>
+                        <button id="next-card">Next</button>
+                    </div>
+                </section>
+                <section id="test-section" class="hidden">
+                    <h2>Vocabulary Test</h2>
+                    <p id="test-progress"></p>
+                    <h3 id="test-question"></h3>
+                    <div id="test-options"></div>
+                    <p id="test-feedback" aria-live="polite"></p>
+                    <button id="next-question" class="hidden">Next Question</button>
+                </section>
+                <section class="word-list" id="word-list"></section>
+                <section class="add-word-form hidden" id="add-word-form">
+                    <h3>Add a new word</h3>
+                    <form id="word-form">
+                        <input id="new-word" placeholder="Word" required>
+                        <input id="new-translation" placeholder="Translation" required>
+                        <input id="new-example" placeholder="Example sentence">
+                        <button type="submit">Save Word</button>
+                    </form>
+                </section>
+            </section>
+            <section class="notebook-page" id="page-workspace" hidden>
+
+                <h2>Workspace</h2>
+                <p>Everything you need for our lessons, all in one place.</p>
+
+                <!-- Permanent meeting -->
+
+                <section class="workspace-meeting">
+                    <h3>Our Classroom</h3>
+
+                    <p>Your permanent link to our lessons.</p>
+
+                    <div id="student-meeting">
+                        <p>Loading classroom...</p>
+                    </div>
+                </section>
+
+                <!-- Learning resources -->
+
+                <section class="workspace-resources">
+                    <h3>Our Resources</h3>
+
+                    <div id="student-resources">
+                        <p>Loading resources...</p>
+                    </div>
+                </section>
+
+                <p id="workspace-error" role="alert" hidden></p>
+
+            </section>
+            <section class="notebook-page" id="page-library" hidden>
+                <section class="library-header">
+                    <h2>Reading Library</h2>
+                    <p>That's a different library. You have to be LOUD!</p>
+                    <div class="library-filters">
+                        <label for="level-filter">Choose the difficulty:</label>
+                        <select id="level-filter">
+                            <option value="all">All levels</option>
+                            <option value="A1">A1</option>
+                            <option value="A2">A2</option>
+                            <option value="B1">B1</option>
+                            <option value="B2">B2</option>
+                            <option value="C1">C1</option>
+                        </select>
+                    </div>
+                </section>
+                <section id="library-list" class="library-grid"></section>
+                <section id="reading-section" class="reading-section hidden">
+                    <button id="back-to-library" type="button">← Back to Library</button>
+                    <h2 id="reading-title"></h2>
+                    <p id="reading-level"></p>
+                    <article id="reading-text"></article>
+                    <div class="recording-area">
+                        <h3>Reading Practice</h3>
+                        <p>Read it to me</p>
+                        <div class="recording-controls">
+                            <button id="start-recording" type="button">Start</button>
+                            <button id="stop-recording" type="button" disabled>Stop</button>
+                        </div>
+                        <p id="recording-status" aria-live="polite">Ready to record</p>
+                        <audio
+                        id="audio-player"
+                        controls
+                        class="hidden">
+                    </audio>
+                    <a id="download-recording" class="hidden">
+                        Download Recording
+                    </a>
+                </div>
+            </section>
+            </section>
+            <section class="notebook-page" id="page-gym" hidden>
+                <section class="grammar-header">
+                    <h2>Grammar Gym</h2>
+                    <p>Train your grammar, one question at a time.</p>
+                </section>
+                <section id="grammar-settings" class="grammar-panel">
+                    <h3>Choose your workout</h3>
+                    <div class="grammar-filters">
+                        <div>
+                            <label for="grammar-level">Level</label>
+                            <select id="grammar-level">
+                                <option value="all">All levels</option>
+                                <option value="A1">A1</option>
+                                <option value="A2">A2</option>
+                                <option value="B1" selected>B1</option>
+                                <option value="B2">B2</option>
+                                <option value="C1">C1</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="grammar-topic">Topic</label>
+                            <select id="grammar-topic">
+                                <option value="all">Random Mix</option>
+                            </select>
+                        </div>
+                    </div>
+                    <p id="available-questions"></p>
+                    <button id="start-grammar" type="button">Start Workout</button>
+                </section>
+                <section id="grammar-workout" class="grammar-panel hidden">
+                    <div class="workout-top">
+                        <span id="grammar-progress"></span>
+                        <span id="grammar-score"></span>
+                    </div>
+                    <div class="progress-track">
+                        <div id="progress-fill"></div>
+                    </div>
+                    <p id="question-topic"></p>
+                    <h2 id="grammar-question"></h2>
+                    <div id="grammar-options"></div>
+                    <div
+                    id="grammar-feedback"
+                    class="hidden"
+                    aria-live="polite">
+                    </div>
+
+                    <button
+                    id="next-grammar-question"
+                    class="hidden"
+                    type="button">
+                    Next Question
+                    </button>
+
+                </section>
+
+                <section id="grammar-results" class="grammar-panel hidden">
+                    <h2>Workout Complete!</h2>
+
+                    <p id="final-score"></p>
+                    <p id="result-message"></p>
+
+                    <button id="restart-grammar" type="button">
+                    New Workout
+                    </button>
+
+                </section>
+
+            </section>
+            <div class="notebook-rings" aria-hidden="true">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
