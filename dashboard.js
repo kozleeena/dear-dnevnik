@@ -331,6 +331,7 @@ async function loadDashboard() {
         initNotebook();
 
         await loadStudentWorkspace();
+        await loadStudentStickers();
         notebook.hidden = false;
 
     } catch (error) {
@@ -356,5 +357,125 @@ logoutButton.addEventListener("click", async (event) => {
 
     window.location.replace("index.html");
 });
+
+async function loadStudentStickers() {
+
+    const grid = document.getElementById("stickers-grid");
+    const counter = document.getElementById("stickers-counter");
+    const errorElement = document.getElementById("stickers-error");
+
+    if (!grid || !counter || !errorElement) return;
+
+    const { data: authData, error: authError } =
+        await supabaseClient.auth.getUser();
+
+    if (authError || !authData?.user) return;
+
+    const { data, error } = await supabaseClient
+        .from("student_stickers")
+        .select("id, title, description, image_path, awarded_at")
+        .eq("student_id", authData.user.id)
+        .order("awarded_at", { ascending: true });
+
+    if (error) {
+        console.error("Stickers error:", error);
+        errorElement.textContent = "Could not load your stickers.";
+        errorElement.hidden = false;
+        return;
+    }
+
+    errorElement.hidden = true;
+    grid.replaceChildren();
+
+    const stickers = data || [];
+
+    // Always show at least 9 slots.
+    // Expand by complete rows of 3.
+
+    const slotCount = Math.max(
+        9,
+        Math.ceil(stickers.length / 3) * 3
+    );
+
+    for (let i = 0; i < slotCount; i++) {
+
+        const sticker = stickers[i];
+
+        if (!sticker) {
+            const emptySlot = document.createElement("div");
+            emptySlot.className = "sticker-slot empty";
+
+            const plus = document.createElement("span");
+            plus.textContent = "+";
+            plus.setAttribute("aria-hidden", "true");
+
+            emptySlot.appendChild(plus);
+            grid.appendChild(emptySlot);
+            continue;
+        }
+
+        const card = document.createElement("button");
+        card.type = "button";
+        card.className = "sticker-card";
+        card.setAttribute("aria-pressed", "false");
+        card.setAttribute("aria-label", `Flip ${sticker.title}`);
+
+        const inner = document.createElement("span");
+        inner.className = "sticker-card-inner";
+
+        // FRONT
+
+        const front = document.createElement("span");
+        front.className = "sticker-front";
+
+        const image = document.createElement("img");
+
+        const { data: imageData } = supabaseClient.storage
+            .from("sticker-images")
+            .getPublicUrl(sticker.image_path);
+
+        image.src = imageData.publicUrl;
+        image.alt = sticker.title;
+        image.loading = "lazy";
+
+        front.appendChild(image);
+
+        // BACK
+
+        const back = document.createElement("span");
+        back.className = "sticker-back";
+
+        const title = document.createElement("strong");
+        title.textContent = sticker.title;
+
+        const description = document.createElement("span");
+        description.textContent = sticker.description;
+
+        back.append(title, description);
+
+        inner.append(front, back);
+        card.appendChild(inner);
+
+        // FLIP
+
+        card.addEventListener("click", () => {
+            const flipped = card.classList.toggle("flipped");
+
+            card.setAttribute("aria-pressed", String(flipped));
+            card.setAttribute(
+                "aria-label",
+                flipped
+                    ? `Show image for ${sticker.title}`
+                    : `Flip ${sticker.title}`
+            );
+        });
+
+        grid.appendChild(card);
+    }
+
+    counter.textContent =
+        `${stickers.length} sticker${stickers.length === 1 ? "" : "s"} collected`;
+}
+
 
 loadDashboard();

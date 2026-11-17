@@ -1509,3 +1509,340 @@ a {
         font-size: 23px;
     }
 }
+
+/* ==========================================
+   MY STICKERS — NOTEBOOK TAB
+========================================== */
+
+.notebook-tab[data-page="stickers"] {
+    background-color: #F6B4C6;
+}
+
+
+/* ==========================================
+   STUDENT STICKER COLLECTION
+========================================== */
+
+.stickers-header h2 {
+    margin-bottom: 8px;
+}
+
+.stickers-header p {
+    margin-bottom: 30px;
+}
+
+.stickers-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.sticker-slot,
+.sticker-card {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    min-width: 0;
+}
+
+.sticker-slot.empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 2px dashed #C8C0B4;
+    border-radius: 14px;
+
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.sticker-slot.empty span {
+    font-size: 42px;
+    color: #C8C0B4;
+    font-family: "Baloo Bhai 2", sans-serif;
+}
+
+.sticker-card {
+    position: relative;
+    display: block;
+
+    padding: 0;
+    border: none;
+    border-radius: 14px;
+
+    background: transparent;
+    cursor: pointer;
+
+    perspective: 1000px;
+}
+
+.sticker-card:focus-visible {
+    outline: 3px solid #1E3775;
+    outline-offset: 4px;
+}
+
+.sticker-card-inner {
+    position: absolute;
+    inset: 0;
+
+    display: block;
+
+    transform-style: preserve-3d;
+    transition: transform 0.55s ease;
+}
+
+.sticker-card.flipped .sticker-card-inner {
+    transform: rotateY(180deg);
+}
+
+.sticker-front,
+.sticker-back {
+    position: absolute;
+    inset: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 14px;
+    overflow: hidden;
+
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+
+.sticker-front {
+    padding: 12px;
+    background: #F1E698;
+}
+
+.sticker-front img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.sticker-back {
+    flex-direction: column;
+    gap: 10px;
+
+    padding: 12px;
+
+    background: #F6B4C6;
+    color: #1E3775;
+
+    text-align: center;
+
+    transform: rotateY(180deg);
+}
+
+.sticker-back strong {
+    font-family: "Baloo Bhai", sans-serif;
+    font-size: clamp(15px, 2vw, 24px);
+    line-height: 1.1;
+    overflow-wrap: anywhere;
+}
+
+.sticker-back > span {
+    font-size: clamp(12px, 1.4vw, 17px);
+    line-height: 1.2;
+    overflow-wrap: anywhere;
+    overflow-y: auto;
+    max-height: 75%;
+}
+
+#stickers-counter {
+    margin-top: 24px;
+    text-align: center;
+
+    color: #1E3775;
+    font-size: 18px;
+}
+
+#stickers-error {
+    color: #A33434;
+}
+
+
+/* ==========================================
+   TEACHER STICKER MANAGEMENT
+========================================== */
+
+.teacher-stickers {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    margin-top: 25px;
+    padding-top: 20px;
+
+    border-top: 2px solid rgba(30, 55, 117, 0.15);
+}
+
+.teacher-stickers h4 {
+    margin: 0;
+    font-size: 27px;
+}
+
+.teacher-stickers input,
+.teacher-stickers textarea {
+    width: 100%;
+    min-width: 0;
+
+    padding: 12px 16px;
+
+    border: 1px solid #C8C0B4;
+    border-radius: 10px;
+
+    background: #F4F0E9;
+    color: #1E3775;
+
+    font: inherit;
+}
+
+.teacher-stickers label {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    font-size: 18px;
+}
+
+.teacher-stickers button {
+    padding: 9px 16px;
+
+    border: none;
+    border-radius: 10px;
+
+    background: #F6B4C6;
+    color: #1E3775;
+
+    font: inherit;
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+.teacher-stickers button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.sticker-admin-status {
+    margin: 0;
+    font-size: 15px;
+}
+
+.teacher-sticker-list {
+    display: grid;
+    gap: 10px;
+}
+
+.teacher-sticker-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    padding: 10px;
+
+    background: #F4F0E9;
+    border-radius: 10px;
+}
+
+.teacher-sticker-row img {
+    width: 60px;
+    height: 60px;
+
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.teacher-sticker-details {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+
+    flex: 1;
+    min-width: 0;
+}
+
+.teacher-sticker-details strong {
+    overflow-wrap: anywhere;
+}
+
+.teacher-sticker-details small {
+    overflow-wrap: anywhere;
+    line-height: 1.3;
+}
+
+.teacher-sticker-row button {
+    background: #E9CAA8;
+    font-size: 14px;
+}
+
+
+/* ==========================================
+   MOBILE
+========================================== */
+
+@media (max-width: 720px) {
+
+    .stickers-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 8px;
+    }
+
+    .sticker-front,
+    .sticker-back {
+        border-radius: 9px;
+    }
+
+    .sticker-front {
+        padding: 5px;
+    }
+
+    .sticker-back {
+        padding: 5px;
+        gap: 4px;
+    }
+
+    .sticker-back strong {
+        font-size: clamp(10px, 2.8vw, 15px);
+    }
+
+    .sticker-back > span {
+        font-size: clamp(9px, 2.3vw, 12px);
+    }
+
+    .teacher-sticker-row {
+        flex-wrap: wrap;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .sticker-card-inner {
+        transition: none;
+    }
+}
+/* FIX: Notebook page width */
+
+.notebook-paper {
+    min-width: 0;
+    flex: 1;
+}
+
+.notebook-page {
+    width: 100%;
+    min-width: 0;
+}
+
+#page-stickers {
+    width: 100%;
+    min-width: 0;
+}
+
+.stickers-grid {
+    width: 100%;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}

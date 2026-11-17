@@ -402,10 +402,244 @@ async function loadStudents() {
         });
 
         loadWorkspaceLinks();
+        addStickerControls(card, student);
 
         studentsList.appendChild(card);
     });
 }
+
+function addStickerControls(card, student) {
+
+    const section = document.createElement("section");
+    section.className = "teacher-stickers";
+
+    const heading = document.createElement("h4");
+    heading.textContent = "Award a Sticker";
+
+    const titleInput = document.createElement("input");
+    titleInput.type = "text";
+    titleInput.placeholder = "Sticker name";
+    titleInput.maxLength = 100;
+    titleInput.setAttribute("aria-label", "Sticker name");
+
+    const descriptionInput = document.createElement("textarea");
+    descriptionInput.placeholder = "What did the student achieve?";
+    descriptionInput.maxLength = 500;
+    descriptionInput.rows = 3;
+    descriptionInput.setAttribute("aria-label", "Achievement description");
+
+    const imageLabel = document.createElement("label");
+    imageLabel.textContent = "Sticker image (PNG or WebP)";
+
+    const imageInput = document.createElement("input");
+    imageInput.type = "file";
+    imageInput.accept = "image/png,image/webp";
+
+    imageLabel.appendChild(imageInput);
+
+    const awardButton = document.createElement("button");
+    awardButton.type = "button";
+    awardButton.textContent = "+ Award Sticker";
+
+    const status = document.createElement("p");
+    status.className = "sticker-admin-status";
+    status.setAttribute("role", "status");
+
+    const listHeading = document.createElement("h4");
+    listHeading.textContent = "Awarded Stickers";
+
+    const awardedList = document.createElement("div");
+    awardedList.className = "teacher-sticker-list";
+
+    section.append(
+        heading,
+        titleInput,
+        descriptionInput,
+        imageLabel,
+        awardButton,
+        status,
+        listHeading,
+        awardedList
+    );
+
+    card.appendChild(section);
+
+    // Load already awarded stickers
+
+    async function loadAwardedStickers() {
+
+        const { data, error } = await supabaseClient.rpc(
+            "teacher_get_student_stickers",
+            {
+                p_student_id: student.id
+            }
+        );
+
+        if (error) {
+            console.error("Sticker list error:", error);
+            status.textContent = "Could not load stickers.";
+            return;
+        }
+
+        awardedList.replaceChildren();
+
+        if (!data || data.length === 0) {
+            awardedList.textContent = "No stickers awarded yet.";
+            return;
+        }
+
+        data.forEach(sticker => {
+
+            const row = document.createElement("div");
+            row.className = "teacher-sticker-row";
+
+            const image = document.createElement("img");
+
+            const { data: imageData } = supabaseClient.storage
+                .from("sticker-images")
+                .getPublicUrl(sticker.image_path);
+
+            image.src = imageData.publicUrl;
+            image.alt = sticker.title;
+
+            const details = document.createElement("div");
+            details.className = "teacher-sticker-details";
+
+            const name = document.createElement("strong");
+            name.textContent = sticker.title;
+
+            const description = document.createElement("small");
+            description.textContent = sticker.description;
+
+            details.append(name, description);
+
+            const removeButton = document.createElement("button");
+            removeButton.type = "button";
+            removeButton.textContent = "Remove";
+
+            removeButton.addEventListener("click", async () => {
+
+                if (!confirm(`Remove "${sticker.title}"?`)) {
+                    return;
+                }
+
+                removeButton.disabled = true;
+
+                const { error } = await supabaseClient.rpc(
+                    "teacher_remove_sticker",
+                    {
+                        p_student_id: student.id,
+                        p_sticker_id: sticker.id
+                    }
+                );
+
+                if (error) {
+                    console.error(error);
+                    status.textContent = "Could not remove sticker.";
+                    removeButton.disabled = false;
+                    return;
+                }
+
+                status.textContent = "Sticker removed.";
+                await loadAwardedStickers();
+            });
+
+            row.append(image, details, removeButton);
+            awardedList.appendChild(row);
+        });
+    }
+
+    // Award a new sticker
+
+    awardButton.addEventListener("click", async () => {
+
+        const title = titleInput.value.trim();
+        const description = descriptionInput.value.trim();
+        const file = imageInput.files?.[0];
+
+        if (!title || !description || !file) {
+            status.textContent =
+                "Enter a name, description and image.";
+            return;
+        }
+
+        if (title.length > 100 || description.length > 500) {
+            status.textContent = "Sticker text is too long.";
+            return;
+        }
+
+        if (!["image/png", "image/webp"].includes(file.type)) {
+            status.textContent = "Only PNG and WebP are allowed.";
+            return;
+        }
+
+        if (file.size > 2 * 1024 * 1024) {
+            status.textContent = "Image must be under 2 MB.";
+            return;
+        }
+
+        awardButton.disabled = true;
+        status.textContent = "Uploading sticker...";
+
+        try {
+
+            const extension =
+                file.type === "image/png" ? "png" : "webp";
+
+            const imagePath =
+                `stickers/${crypto.randomUUID()}.${extension}`;
+
+            // 1. Upload the image
+
+            const { error: uploadError } = await supabaseClient
+                .storage
+                .from("sticker-images")
+                .upload(imagePath, file, {
+                    contentType: file.type,
+                    upsert: false
+                });
+
+            if (uploadError) {
+                throw uploadError;
+            }
+
+            // 2. Award sticker to the student
+
+            const { error: awardError } = await supabaseClient.rpc(
+                "teacher_award_sticker",
+                {
+                    p_student_id: student.id,
+                    p_title: title,
+                    p_description: description,
+                    p_image_path: imagePath
+                }
+            );
+
+            if (awardError) {
+                throw awardError;
+            }
+
+            titleInput.value = "";
+            descriptionInput.value = "";
+            imageInput.value = "";
+
+            status.textContent = "Sticker awarded!";
+
+            await loadAwardedStickers();
+
+        } catch (error) {
+            console.error("Sticker award error:", error);
+            status.textContent =
+                `Could not award sticker: ${error.message}`;
+
+        } finally {
+            awardButton.disabled = false;
+        }
+    });
+
+    loadAwardedStickers();
+}
+
 async function initTeacherDashboard() {
 
     // 1. Проверяем, авторизован ли пользователь

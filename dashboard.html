@@ -24,6 +24,7 @@
             <button type="button" class="notebook-tab" data-page="workspace" aria-controls="page-workspace">Workspace</button>
             <button type="button" class="notebook-tab" data-page="library" aria-controls="page-library">Library</button>
             <button type="button" class="notebook-tab" data-page="gym" aria-controls="page-gym">Gym</button>
+            <button type="button" class="notebook-tab stickers-tab" data-page="stickers" aria-controls="page-stickers">My Stickers</button>
         </nav>
         <main class="notebook-paper">
             <div class="notebook-topbar"><span>Dear Dnevnik</span><button id="logout-button" type="button">Log Out</button></div>
@@ -222,6 +223,38 @@
                     <button id="restart-grammar" type="button">
                     New Workout
                     </button>
+
+                </section>
+                </section>
+                <!-- MY STICKERS -->
+
+                <section
+                    class="notebook-page"
+                    id="page-stickers"
+                    hidden>
+
+                    <header class="stickers-header">
+                        <h2>My Stickers</h2>
+
+                        <p>
+                            A little collection of big achievements!
+                            Click on a sticker to discover its story.
+                        </p>
+                    </header>
+
+                    <div
+                        id="stickers-grid"
+                        class="stickers-grid"
+                        aria-label="My achievement stickers">
+                    </div>
+
+                    <p id="stickers-counter"></p>
+
+                    <p
+                        id="stickers-error"
+                        role="alert"
+                        hidden>
+                    </p>
 
                 </section>
 
