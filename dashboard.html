@@ -49,6 +49,15 @@
                         placeholder="hmmm how to say...">
                         <button id="add-word-btn">+ Add Word</button>
                     </div>
+                    <section class="add-word-form hidden" id="add-word-form">
+                        <h3>Add a new word</h3>
+                        <form id="word-form">
+                            <input id="new-word" placeholder="Word" required>
+                            <input id="new-translation" placeholder="Translation" required>
+                            <input id="new-example" placeholder="Example sentence">
+                            <button type="submit">Save Word</button>
+                        </form>
+                    </section>
                 </section>
                 <section class="vocabulary-practice">
                     <h2>Practice your vocabulary</h2>
@@ -78,15 +87,6 @@
                     <button id="next-question" class="hidden">Next Question</button>
                 </section>
                 <section class="word-list" id="word-list"></section>
-                <section class="add-word-form hidden" id="add-word-form">
-                    <h3>Add a new word</h3>
-                    <form id="word-form">
-                        <input id="new-word" placeholder="Word" required>
-                        <input id="new-translation" placeholder="Translation" required>
-                        <input id="new-example" placeholder="Example sentence">
-                        <button type="submit">Save Word</button>
-                    </form>
-                </section>
             </section>
             <section class="notebook-page" id="page-workspace" hidden>
 
