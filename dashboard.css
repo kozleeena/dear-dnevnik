@@ -41,8 +41,10 @@ html {
 
 body {
     margin: 0;
-    background: var(--navy);
-    color: var(--navy);
+    background-color: var(--navy);
+    background-image: url("images/fabric-blue.jpg");
+    background-size: 600px auto;
+    background-repeat: repeat;
     font-family: var(--font-body);
     font-size: 20px;
     line-height: 1.35;
@@ -116,7 +118,12 @@ a {
 .notebook-body {
     min-height: 100vh;
     padding: 24px 55px 40px 20px;
-    background: var(--navy);
+
+    background-color: var(--navy);
+    background-image: url("images/fabric-blue.jpeg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 .notebook {
@@ -134,7 +141,12 @@ a {
     flex: 1;
     min-width: 0;
     min-height: 850px;
-    background: var(--paper);
+
+    background-color: var(--paper);
+    background-image: url("images/paper-texture.jpeg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 
     padding: 42px 80px 65px 65px;
 }
@@ -609,7 +621,6 @@ a {
 .word-card {
     position: relative;
     background: var(--yellow);
-
     padding: 25px;
     padding-right: 48px;
 
@@ -1776,7 +1787,7 @@ a {
 }
 
 .teacher-sticker-row button {
-    background: #E9CAA8;
+    background: #ca7e2c;
     font-size: 14px;
 }
 
